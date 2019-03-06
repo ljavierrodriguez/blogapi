@@ -18,7 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from rest_framework.authtoken import views as drf_views
+from api.views import CustomAuthToken
 
 # Routers provide an easy way of automatically determining the URL conf.
 from api.viewsets import CategoryViewSet, PostViewSet
@@ -30,7 +30,7 @@ router.register(r'posts', PostViewSet, base_name="post")
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/web-auth/', include('rest_framework.urls'), name="web-auth"),
-    path('api/v1/', drf_views.obtain_auth_token, name="login"),
+    path('api/v1/login', CustomAuthToken.as_view(), name="login"),
     path('api/v1/', include(router.urls)),
 ]
 
