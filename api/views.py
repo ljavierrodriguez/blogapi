@@ -1,6 +1,8 @@
+from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 
 class CustomAuthToken(ObtainAuthToken):
@@ -19,3 +21,10 @@ class CustomAuthToken(ObtainAuthToken):
             'is_staff': user.is_staff,
             'is_active': user.is_active,
         })
+
+
+class Logout(APIView):
+    def get(self, request, format=None):
+        # simply delete the token to force a login
+        request.user.auth_token.delete()
+        return Response(status=status.HTTP_200_OK)
