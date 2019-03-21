@@ -3,6 +3,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from .serializers import UserSerializer
 
 
 class CustomAuthToken(ObtainAuthToken):
@@ -22,6 +23,12 @@ class CustomAuthToken(ObtainAuthToken):
             'is_staff': user.is_staff,
             'is_active': user.is_active,
         })
+
+
+class Register(APIView):
+    def post(self, request):
+        serialized = UserSerializer(data=request.data)
+        return Response(status=status.HTTP_200_OK)
 
 
 class Logout(APIView):

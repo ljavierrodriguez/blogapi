@@ -19,7 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 from rest_framework import routers
-from api.views import CustomAuthToken, Logout
+from api.views import CustomAuthToken, Logout, Register
 
 # Routers provide an easy way of automatically determining the URL conf.
 from api.viewsets import CategoryViewSet, PostViewSet
@@ -33,9 +33,10 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name="index.html")),
     path('api/v1/web-auth/', include('rest_framework.urls'), name="web-auth"),
     path('api/v1/login', CustomAuthToken.as_view(), name="login"),
+    path('api/v1/register', Register.as_view(), name="register"),
     path('api/v1/', include(router.urls)),
     path('api/v1/logout/', Logout.as_view(), name="logout"),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
